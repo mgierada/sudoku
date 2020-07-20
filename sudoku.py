@@ -121,6 +121,7 @@ def check_board(b):
 
 def check_row(b, n_row):
     row = b[n_row, :]
+    print(type(n_row))
     # print(row)
     indices_to_be_removed = []
     for unique_number in np.unique(row):

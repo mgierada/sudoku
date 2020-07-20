@@ -14,12 +14,12 @@ class Generator():
                 b[row, column] = np.random.randint(1, 10)
         # check, whether numbers in rows and columns are possible.
         # If not, put "0" instead
-        check_board(b)
+        Generator.check_board(self, b)
         print(b)
 
-    def check_board(b):
+    def check_board(self, b):
         ''' Check all rows and column to find repeted numbers that
-        are not allowed in the puzzle 
+        are not allowed in the puzzle.
 
         Parameters:
         ___________
@@ -29,40 +29,66 @@ class Generator():
 
         '''
         for row in range(9):
-            check_row(b, row)
+            Generator.check_row(self, b, row)
         for column in range(9):
-            check_column(b, column)
+            Generator.check_column(self, b, column)
 
-    def check_row(b, n_row):
+    def check_row(self, b, n_row):
+        ''' Check row for any impossible combination of numbers.
+
+        Parameters:
+        ___________
+
+        b : ndarray
+            an array with numbers to be checked, i.e. a board
+        n_row : int
+            a number of the row to be checked        
+
+        '''
         row = b[n_row, :]
-        # print(row)
-        indices_to_be_removed = []
+        indices_to_set_zero = []
         for unique_number in np.unique(row):
+            # if there are more than one occurence of the number in the array,
+            # get indices of them
             how_many_occurences = np.where(row == unique_number)[0]
-            # if there is more than one occurence of the number,
+            # It's a 1D array, so .shape[0] acts similar like len() on lists
             if how_many_occurences.shape[0] > 1:
-                # index = np.where(row == unique_number)[0][1]
-                # print('Without mask')
-                # print(unique_number, np.where(row == unique_number)[0])
+                # loop through all
                 for i in np.where(row == unique_number)[0]:
-                    # print(i)
-                    # print('With mask')
-                    # print(unique_number, mask(np.where(row == unique_number)))
                     index = np.where(row == unique_number)[0][1]
-                    indices_to_be_removed.append(index)
+                    indices_to_set_zero.append(index)
             # setting indices equal to 0
-            for index in indices_to_be_removed:
+            for index in indices_to_set_zero:
                 row[index] = 0
 
-    def check_column(b, n_column):
+    def check_column(self, b, n_column):
+        ''' Check row for any impossible combination of numbers.
+
+        Parameters:
+        ___________
+
+        b : ndarray
+            an array with numbers to be checked, i.e. a board
+        n_column : int
+            a number of the column to be checked        
+
+        '''
         column = b[:, n_column]
-        indices_to_be_removed = []
+        indices_to_set_zero = []
         for unique_number in np.unique(column):
+            # if there are more than one occurence of the number in the array,
+            # get indices of them
             how_many_occurences = np.where(column == unique_number)[0]
-            # if there is more than one occurence of the number,
+            # It's a 1D array, so .shape[0] acts similar like len() on lists
             if how_many_occurences.shape[0] > 1:
-                index = np.where(column == unique_number)[0][1]
-                indices_to_be_removed.append(index)
+                # loop through all
+                for i in np.where(column == unique_number)[0]:
+                    index = np.where(column == unique_number)[0][1]
+                    indices_to_set_zero.append(index)
             # setting indices equal to 0
-            for index in indices_to_be_removed:
+            for index in indices_to_set_zero:
                 column[index] = 0
+
+
+gen = Generator()
+gen.board()
