@@ -1,7 +1,7 @@
 import os
 import numpy as np
 # import random
-from random import sample
+# from random import sample
 
 if os.path.isfile('res_file.txt'):
     os.remove('res_file.txt')
@@ -86,14 +86,30 @@ def howManySolutions():
     return nsol
 
 
+# def mask(array):
+#     a = list(array[0])
+#     # print(a)
+#     a_mask = []
+#     for i in range(len(array)):
+#         if i == 0:
+#             a_mask.append(True)
+#         else:
+#             a_mask.append(False)
+#     for i, bool in zip(a, a_mask):
+#         if bool == False:
+#             return i
+# print(a)
+# print(a_mask)
+
+
 def board():
     b = np.zeros(81).reshape(9, 9)
     for row in range(9):
         for column in range(9):
             b[row, column] = np.random.randint(1, 10)
-    check_row(b, 0)
-    # check_board(b)
-    # print(b)
+    # check_row(b, 0)
+    check_board(b)
+    print(b)
 
 
 def check_board(b):
@@ -105,16 +121,21 @@ def check_board(b):
 
 def check_row(b, n_row):
     row = b[n_row, :]
-    print(row)
+    # print(row)
     indices_to_be_removed = []
     for unique_number in np.unique(row):
         how_many_occurences = np.where(row == unique_number)[0]
         # if there is more than one occurence of the number,
         if how_many_occurences.shape[0] > 1:
             # index = np.where(row == unique_number)[0][1]
-            print(unique_number, np.where(row == unique_number)[0])
-            index = np.where(row == unique_number)[0][1]
-            indices_to_be_removed.append(index)
+            # print('Without mask')
+            # print(unique_number, np.where(row == unique_number)[0])
+            for i in np.where(row == unique_number)[0]:
+                # print(i)
+                # print('With mask')
+                # print(unique_number, mask(np.where(row == unique_number)))
+                index = np.where(row == unique_number)[0][1]
+                indices_to_be_removed.append(index)
         # setting indices equal to 0
         for index in indices_to_be_removed:
             row[index] = 0
@@ -135,18 +156,3 @@ def check_column(b, n_column):
 
 
 board()
-
-
-def mask():
-    a = (1, 2, 3, 4)
-    a_mask = []
-    for i in range(len(a)):
-        if i == 0:
-            a_mask.append(True)
-        else:
-            a_mask.append(False)
-    for i, bool in zip(a, a_mask):
-        if bool == False:
-            print(i)
-# print(a)
-# print(a_mask)
