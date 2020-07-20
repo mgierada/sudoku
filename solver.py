@@ -10,12 +10,12 @@ import numpy as np
 class Solver():
     ''' Sudoku solver class '''
 
-    def __init__(self, grid):
-        self.grid = grid
+    # def __init__(self, grid):
+    #     self.grid = grid
 
     def possible(self, x, y, n):
         ''' Check whether it is possible to put number n in grid[x][y] == 0 '''
-        print(type(self.grid))
+        print(type(grid))
         if self.grid[x][y] != 0:
             return False
         # cannot have the same number in each row
@@ -39,6 +39,9 @@ class Solver():
         ''' Try to solve Sudoku puzzle recursively '''
         for x in range(9):
             for y in range(9):
+                for i in self.grid[x][y]:
+                    print(i)
+                print(self.grid[x][y])
                 if self.grid[x][y] == 0:
                     for n in range(1, 10):
                         if Solver.possible(self.grid, x, y, n):
@@ -81,86 +84,14 @@ grid = [
 ]
 
 grid = np.matrix(grid)
+# print(type(grid))
 
 
 sol = Solver(grid)
-print(grid)
+# print(grid)
 sol.solve()
 # sol.howManySolutions()
-
-# # def mask(array):
-# #     a = list(array[0])
-# #     # print(a)
-# #     a_mask = []
-# #     for i in range(len(array)):
-# #         if i == 0:
-# #             a_mask.append(True)
-# #         else:
-# #             a_mask.append(False)
-# #     for i, bool in zip(a, a_mask):
-# #         if bool == False:
-# #             return i
-# # print(a)
-# # print(a_mask)
-
-
-# def board():
-#     b = np.zeros(81).reshape(9, 9)
-#     for row in range(9):
-#         for column in range(9):
-#             b[row, column] = np.random.randint(1, 10)
-#     check_row(b, 0)
-#     # check_board(b)
-#     # print(b)
-
-
-# def check_board(b):
-#     for row in range(9):
-#         check_row(b, row)
-#     for column in range(9):
-#         check_column(b, column)
-
-
-# def check_row(b, n_row):
-#     row = b[n_row, :]
-#     print(row)
-#     indices_to_be_removed = []
-#     for unique_number in np.unique(row):
-#         how_many_occurences = np.where(row == unique_number)[0]
-#         # if there is more than one occurence of the number,
-#         if how_many_occurences.shape[0] > 1:
-#             # index = np.where(row == unique_number)[0][1]
-#             # print('Without mask')
-#             # print(unique_number, how_many_occurences)
-#             for num, i in enumerate(how_many_occurences):
-#                 # print(i)
-#                 # print('With mask')
-#                 # print(unique_number, mask(np.where(row == unique_number)))
-#                 # index = np.where(row == unique_number)[0][1]
-#                 # print(index)
-#                 # if index == 0:
-#                 #     break
-#                 if num != 0:
-#                     indices_to_be_removed.append(i)
-#     # print(indices_to_be_removed)
-#     # setting indices equal to 0
-#     for index in indices_to_be_removed:
-#         row[index] = 0
-#     print(row)
-
-
-# def check_column(b, n_column):
-#     column = b[:, n_column]
-#     indices_to_be_removed = []
-#     for unique_number in np.unique(column):
-#         how_many_occurences = np.where(column == unique_number)[0]
-#         # if there is more than one occurence of the number,
-#         if how_many_occurences.shape[0] > 1:
-#             index = np.where(column == unique_number)[0][1]
-#             indices_to_be_removed.append(index)
-#         # setting indices equal to 0
-#         for index in indices_to_be_removed:
-#             column[index] = 0
-
-
-# board()
+# for x in range(9):
+#     for y in range(9):
+#         if grid[x][y] != 0:
+#             print(grid[x][y])
