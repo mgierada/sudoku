@@ -91,44 +91,39 @@ def board():
     for row in range(9):
         for column in range(9):
             b[row, column] = np.random.randint(1, 10)
+    for row in range(9):
+        check_row(b, row)
+    for column in range(9):
+        check_column(b, column)
+    print(b)
 
-    row0 = b[0, :]
-    # print(row0.shape)
-    print('Was')
-    print(row0)
-    # print(np.unique(row0))
+
+def check_row(b, n_row):
+    row = b[n_row, :]
     indices_to_be_removed = []
-    for unique_number in np.unique(row0):
-        how_many_occurences = np.where(row0 == unique_number)[0]
+    for unique_number in np.unique(row):
+        how_many_occurences = np.where(row == unique_number)[0]
         # if there is more than one occurence of the number,
         if how_many_occurences.shape[0] > 1:
-            index = np.where(row0 == unique_number)[0][1]
+            index = np.where(row == unique_number)[0][1]
             indices_to_be_removed.append(index)
-    # setting indices equal to 0
-    for index in indices_to_be_removed:
-        # print(index)
-        row0[index] = 0
-    print('is')
-    print(row0)
-    # print(a.shape[0])
+        # setting indices equal to 0
+        for index in indices_to_be_removed:
+            row[index] = 0
 
-    # for r in row0:
-    #     np.where(r > 2)
-    # row0_list = list(row0)
-    # print(row0_list)
-    # comp_row = row0.copy
-    # for r in row0
-    # unique, counts = np.unique(row0, return_counts=True)
 
-    # for num, r in enumerate(row0):
-    #     if row0.count(r) > 1:
-    #         print(r)
-    #
-    # print(comp_row)
-    # print(b)
-    # for num in b:
-    #     print(num)
-    # if possible(grid, x, y, n)
+def check_column(b, n_column):
+    column = b[:, n_column]
+    indices_to_be_removed = []
+    for unique_number in np.unique(column):
+        how_many_occurences = np.where(column == unique_number)[0]
+        # if there is more than one occurence of the number,
+        if how_many_occurences.shape[0] > 1:
+            index = np.where(column == unique_number)[0][1]
+            indices_to_be_removed.append(index)
+        # setting indices equal to 0
+        for index in indices_to_be_removed:
+            column[index] = 0
 
 
 board()
