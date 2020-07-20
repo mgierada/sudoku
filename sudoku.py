@@ -92,73 +92,43 @@ def board():
         for column in range(9):
             b[row, column] = np.random.randint(1, 10)
 
-    row1 = b[0, :]
-    print(row1)
-    for num in b[0, :]:
-        if num in row1:
-            b[0, row] = 0
+    row0 = b[0, :]
+    # print(row0.shape)
+    print('Was')
+    print(row0)
+    # print(np.unique(row0))
+    indices_to_be_removed = []
+    for unique_number in np.unique(row0):
+        how_many_occurences = np.where(row0 == unique_number)[0]
+        # if there is more than one occurence of the number,
+        if how_many_occurences.shape[0] > 1:
+            index = np.where(row0 == unique_number)[0][1]
+            indices_to_be_removed.append(index)
+    # setting indices equal to 0
+    for index in indices_to_be_removed:
+        # print(index)
+        row0[index] = 0
+    print('is')
+    print(row0)
+    # print(a.shape[0])
 
-    print(b)
+    # for r in row0:
+    #     np.where(r > 2)
+    # row0_list = list(row0)
+    # print(row0_list)
+    # comp_row = row0.copy
+    # for r in row0
+    # unique, counts = np.unique(row0, return_counts=True)
+
+    # for num, r in enumerate(row0):
+    #     if row0.count(r) > 1:
+    #         print(r)
+    #
+    # print(comp_row)
+    # print(b)
+    # for num in b:
+    #     print(num)
+    # if possible(grid, x, y, n)
 
 
 board()
-
-
-# solve(grid)
-# base = 5
-# side = base * base
-
-# pattern for a baseline valid solution
-
-
-# def pattern(r, c):
-#     return (base * (r % base) + r // base + c) % side
-
-# # randomize rows, columns and numbers (of valid base pattern)
-
-# def shuffle(s):
-#     return sample(s, len(s))
-
-
-# rBase = range(base)
-# rows = [g * base + r for g in shuffle(rBase) for r in shuffle(rBase)]
-# cols = [g * base + c for g in shuffle(rBase) for c in shuffle(rBase)]
-# nums = shuffle(range(1, base * base + 1))
-
-# # produce board using randomized baseline pattern
-# board = [[nums[pattern(r, c)] for c in cols] for r in rows]
-
-# print('Solved sudoku')
-# for line in board:
-#     print(line)
-
-# squares = side * side
-# empties = squares * 3 // 4
-# for p in sample(range(squares), empties):
-#     board[p // side][p % side] = 0
-
-# numSize = len(str(side))
-# print('To be solved')
-# for line in board:
-#     print("[" + "  ".join(f"{n or '.':{numSize}}" for n in line) + "]")
-
-# def expandLine(line):
-#     return line[0]+line[5:9].join([line[1:5]*(base-1)]*base)+line[9:13]
-
-# line0  = expandLine("╔═══╤═══╦═══╗")
-# line1  = expandLine("║ . │ . ║ . ║")
-# line2  = expandLine("╟───┼───╫───╢")
-# line3  = expandLine("╠═══╪═══╬═══╣")
-# line4  = expandLine("╚═══╧═══╩═══╝")
-
-# symbol = " 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-# # symbol = []
-# # for i in range(1, base * base + 1):
-# #     symbol.append(str(i))
-# # print(symbol)
-
-# nums   = [ [""]+[symbol[n] for n in row] for row in board ]
-# print(line0)
-# for r in range(1,side+1):
-#     print( "".join(n+s for n,s in zip(nums[r-1],line1.split("."))) )
-#     print([line2,line3,line4][(r%side==0)+(r%base==0)])
