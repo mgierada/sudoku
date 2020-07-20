@@ -46,7 +46,7 @@ class Generator():
 
         '''
         row = b[n_row, :]
-        indices_to_set_zero = []
+        set_indices_to_zero = []
         for unique_number in np.unique(row):
             # if there are more than one occurence of the number in the array,
             # get indices of them
@@ -54,15 +54,16 @@ class Generator():
             # It's a 1D array, so .shape[0] acts similar like len() on lists
             if how_many_occurences.shape[0] > 1:
                 # loop through all
-                for i in np.where(row == unique_number)[0]:
-                    index = np.where(row == unique_number)[0][1]
-                    indices_to_set_zero.append(index)
-            # setting indices equal to 0
-            for index in indices_to_set_zero:
-                row[index] = 0
+                for idx, occurence in enumerate(how_many_occurences):
+                    # skip the first value, beacouse it is a valid number
+                    if idx != 0:
+                        set_indices_to_zero.append(occurence)
+        # setting indices equal to 0
+        for index in set_indices_to_zero:
+            row[index] = 0
 
     def check_column(self, b, n_column):
-        ''' Check row for any impossible combination of numbers.
+        ''' Check column for any impossible combination of numbers.
 
         Parameters:
         ___________
@@ -74,7 +75,7 @@ class Generator():
 
         '''
         column = b[:, n_column]
-        indices_to_set_zero = []
+        set_indices_to_zero = []
         for unique_number in np.unique(column):
             # if there are more than one occurence of the number in the array,
             # get indices of them
@@ -82,13 +83,14 @@ class Generator():
             # It's a 1D array, so .shape[0] acts similar like len() on lists
             if how_many_occurences.shape[0] > 1:
                 # loop through all
-                for i in np.where(column == unique_number)[0]:
-                    index = np.where(column == unique_number)[0][1]
-                    indices_to_set_zero.append(index)
-            # setting indices equal to 0
-            for index in indices_to_set_zero:
-                column[index] = 0
+                for idx, occurence in enumerate(how_many_occurences):
+                    # skip the first value, beacouse it is a valid number
+                    if idx != 0:
+                        set_indices_to_zero.append(occurence)
+        # setting indices equal to 0
+        for index in set_indices_to_zero:
+            column[index] = 0
 
 
-gen = Generator()
-gen.board()
+# gen = Generator()
+# gen.board()

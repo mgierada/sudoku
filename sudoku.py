@@ -107,9 +107,9 @@ def board():
     for row in range(9):
         for column in range(9):
             b[row, column] = np.random.randint(1, 10)
-    # check_row(b, 0)
-    check_board(b)
-    print(b)
+    check_row(b, 0)
+    # check_board(b)
+    # print(b)
 
 
 def check_board(b):
@@ -121,8 +121,7 @@ def check_board(b):
 
 def check_row(b, n_row):
     row = b[n_row, :]
-    print(type(n_row))
-    # print(row)
+    print(row)
     indices_to_be_removed = []
     for unique_number in np.unique(row):
         how_many_occurences = np.where(row == unique_number)[0]
@@ -130,16 +129,22 @@ def check_row(b, n_row):
         if how_many_occurences.shape[0] > 1:
             # index = np.where(row == unique_number)[0][1]
             # print('Without mask')
-            # print(unique_number, np.where(row == unique_number)[0])
-            for i in np.where(row == unique_number)[0]:
+            # print(unique_number, how_many_occurences)
+            for num, i in enumerate(how_many_occurences):
                 # print(i)
                 # print('With mask')
                 # print(unique_number, mask(np.where(row == unique_number)))
-                index = np.where(row == unique_number)[0][1]
-                indices_to_be_removed.append(index)
-        # setting indices equal to 0
-        for index in indices_to_be_removed:
-            row[index] = 0
+                # index = np.where(row == unique_number)[0][1]
+                # print(index)
+                # if index == 0:
+                #     break
+                if num != 0:
+                    indices_to_be_removed.append(i)
+    # print(indices_to_be_removed)
+    # setting indices equal to 0
+    for index in indices_to_be_removed:
+        row[index] = 0
+    print(row)
 
 
 def check_column(b, n_column):
