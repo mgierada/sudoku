@@ -91,20 +91,28 @@ def board():
     for row in range(9):
         for column in range(9):
             b[row, column] = np.random.randint(1, 10)
+    check_row(b, 0)
+    # check_board(b)
+    # print(b)
+
+
+def check_board(b):
     for row in range(9):
         check_row(b, row)
     for column in range(9):
         check_column(b, column)
-    print(b)
 
 
 def check_row(b, n_row):
     row = b[n_row, :]
+    print(row)
     indices_to_be_removed = []
     for unique_number in np.unique(row):
         how_many_occurences = np.where(row == unique_number)[0]
         # if there is more than one occurence of the number,
         if how_many_occurences.shape[0] > 1:
+            # index = np.where(row == unique_number)[0][1]
+            print(unique_number, np.where(row == unique_number)[0])
             index = np.where(row == unique_number)[0][1]
             indices_to_be_removed.append(index)
         # setting indices equal to 0
@@ -127,3 +135,18 @@ def check_column(b, n_column):
 
 
 board()
+
+
+def mask():
+    a = (1, 2, 3, 4)
+    a_mask = []
+    for i in range(len(a)):
+        if i == 0:
+            a_mask.append(True)
+        else:
+            a_mask.append(False)
+    for i, bool in zip(a, a_mask):
+        if bool == False:
+            print(i)
+# print(a)
+# print(a_mask)
