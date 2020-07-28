@@ -92,5 +92,5 @@ class Generator():
             column[index] = 0
 
 
-# gen = Generator()
-# gen.board()
+gen = Generator()
+gen.board()

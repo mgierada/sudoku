@@ -10,12 +10,11 @@ import numpy as np
 class Solver():
     ''' Sudoku solver class '''
 
-    # def __init__(self, grid):
-    #     self.grid = grid
+    def __init__(self, grid):
+        self.grid = grid
 
     def possible(self, x, y, n):
         ''' Check whether it is possible to put number n in grid[x][y] == 0 '''
-        print(type(grid))
         if self.grid[x][y] != 0:
             return False
         # cannot have the same number in each row
@@ -39,14 +38,11 @@ class Solver():
         ''' Try to solve Sudoku puzzle recursively '''
         for x in range(9):
             for y in range(9):
-                for i in self.grid[x][y]:
-                    print(i)
-                print(self.grid[x][y])
                 if self.grid[x][y] == 0:
                     for n in range(1, 10):
-                        if Solver.possible(self.grid, x, y, n):
+                        if self.possible(x, y, n):
                             self.grid[x][y] = n
-                            Solver.solve(self.grid)
+                            self.solve()
                             # if failed, reset to 0
                             self.grid[x][y] = 0
                     return
@@ -64,32 +60,36 @@ class Solver():
                 if '[[' in line:
                     nsoltmp.append(line[:2])
         nsol = len(nsoltmp)
-        print('There are {} solutions'.format(nsol))
-        return nsol
+        if nsol == 1:
+            print('There is {} solutions'.format(nsol))
+            return nsol
+        else:
+            print('There are {} solutions'.format(nsol))
+            return nsol
 
 
 if os.path.isfile('res_file.txt'):
     os.remove('res_file.txt')
 
-grid = [
-    [5, 3, 0, 0, 7, 0, 0, 0, 0],
-    [6, 0, 0, 1, 9, 5, 0, 0, 0],
-    [0, 9, 8, 0, 0, 0, 0, 6, 0],
-    [8, 0, 0, 0, 6, 0, 0, 0, 3],
-    [4, 0, 0, 8, 0, 3, 0, 0, 1],
-    [7, 0, 0, 0, 2, 0, 0, 0, 6],
-    [0, 6, 0, 0, 0, 0, 2, 8, 0],
-    [0, 0, 0, 4, 1, 9, 0, 0, 5],
-    [0, 0, 0, 0, 8, 0, 0, 0, 0]
-]
+grid = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 0, 0]]
 
-grid = np.matrix(grid)
+# grid = np.matrix(grid)
 # print(type(grid))
 
 
+print(np.matrix(grid))
+print('-------')
 sol = Solver(grid)
-# print(grid)
 sol.solve()
+sol.howManySolutions()
 # sol.howManySolutions()
 # for x in range(9):
 #     for y in range(9):
