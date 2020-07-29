@@ -23,7 +23,7 @@ class Generator():
         # print(b)
         # check, whether numbers in rows and columns are possible.
         # If not, put "0" instead
-        Generator.check_board(self, b)
+        # Generator.check_board(self, b)
         return b
 
     def check_board(self, b):
@@ -41,6 +41,8 @@ class Generator():
             Generator.check_row(self, b, row)
         for column in range(9):
             Generator.check_column(self, b, column)
+        sq = self.check_square(b)
+        print(sq)
 
     def check_row(self, b, n_row):
         ''' Check row for any impossible combination of numbers.
@@ -100,16 +102,29 @@ class Generator():
         for index in set_indices_to_zero:
             column[index] = 0
 
-    # def check_square(self):
-    #     # cannot have the same number in each 3x3 square
-    #     x0 = (x // 3) * 3
-    #     y0 = (y // 3) * 3
-    #     for i in range(3):
-    #         for j in range(3):
-    #             if self.grid[x0 + i][y0 + j] == n:
-    #                 return False
+    def check_square(self, b):
+        # cannot have the same number in each 3x3 square
+        #
+        ind = [0, 1, 2]
+        # get the first 3x3 square by using fancy indexing
+        square_b = b[:, ind][ind, :]
+        square_b = square_b.reshape(9)
+        set_indices_to_zero = []
+        for unique_number in np.unique(square_b):
+            how_many_occurences = np.where(square_b == unique_number)[0]
+            if how_many_occurences.shape[0] > 1:
+                for idx, occurence in enumerate(how_many_occurences):
+                    # skip the first value, beacouse it is a valid number
+                    if idx != 0:
+                        set_indices_to_zero.append(occurence)
+        for index in set_indices_to_zero:
+            square_b[index] = 0
+        square_b = square_b.reshape(3, 3)
+        return square_b
 
 
-# gen = Generator()
-# board = gen.board()
-# print(board)
+gen = Generator()
+board = gen.board()
+print(board)
+small_square = gen.check_square(board)
+print(small_square)
