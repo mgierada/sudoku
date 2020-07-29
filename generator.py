@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 
 class Generator():
@@ -7,12 +8,19 @@ class Generator():
     def board(self):
         ''' Generate a board '''
         # create an empty 9x9 board, i.e. A board filled with zeros.
-        b = np.zeros(81).reshape(9, 9)
+        rows = []
+        for _ in range(9):
+            row = random.sample(range(1, 10), 9)
+            rows.append(row)
+        b = np.array(rows)
+        # b = np.append(np.array(row), np.array(row), axis=0)
+        # print(row)
+
         # fill the empty board with random integers in a range 1-9
-        for row in range(9):
-            for column in range(9):
-                b[row, column] = np.random.randint(1, 10)
-        print(b)
+        # for row in range(9):
+        #     for column in range(9):
+        #         b[row, column] = np.random.randint(1, 10)
+        # print(b)
         # check, whether numbers in rows and columns are possible.
         # If not, put "0" instead
         Generator.check_board(self, b)
@@ -91,3 +99,17 @@ class Generator():
         # setting indices equal to 0
         for index in set_indices_to_zero:
             column[index] = 0
+
+    # def check_square(self):
+    #     # cannot have the same number in each 3x3 square
+    #     x0 = (x // 3) * 3
+    #     y0 = (y // 3) * 3
+    #     for i in range(3):
+    #         for j in range(3):
+    #             if self.grid[x0 + i][y0 + j] == n:
+    #                 return False
+
+
+# gen = Generator()
+# board = gen.board()
+# print(board)
