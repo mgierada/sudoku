@@ -41,8 +41,7 @@ class Generator():
             Generator.check_row(self, b, row)
         for column in range(9):
             Generator.check_column(self, b, column)
-        sq = self.check_square(b)
-        print(sq)
+        self.check_square(b)
 
     def check_row(self, b, n_row):
         ''' Check row for any impossible combination of numbers.
@@ -102,12 +101,12 @@ class Generator():
         for index in set_indices_to_zero:
             column[index] = 0
 
-    def check_square(self, b):
+    def check_square(self, b, ind_row, ind_column):
         # cannot have the same number in each 3x3 square
         #
-        ind = [0, 1, 2]
+        # ind = [0, 1, 2]
         # get the first 3x3 square by using fancy indexing
-        square_b = b[:, ind][ind, :]
+        square_b = b[:, ind_row][ind_column, :]
         square_b = square_b.reshape(9)
         set_indices_to_zero = []
         for unique_number in np.unique(square_b):
@@ -126,5 +125,18 @@ class Generator():
 gen = Generator()
 board = gen.board()
 print(board)
-small_square = gen.check_square(board)
-print(small_square)
+# TODO I need a way to do it in a more pythonic way
+# small_square1 = gen.check_square(board, [0, 1, 2], [0, 1, 2])
+# small_square2 = gen.check_square(board, [0, 1, 2], [3, 4, 5])
+# small_square3 = gen.check_square(board, [0, 1, 2], [6, 7, 8])
+# small_square4 = gen.check_square(board, [3, 4, 5], [0, 1, 2])
+# small_square5 = gen.check_square(board, [3, 4, 5], [3, 4, 5])
+# small_square6 = gen.check_square(board, [3, 4, 5], [6, 7, 8])
+# small_square7 = gen.check_square(board, [6, 7, 8], [0, 1, 2])
+# small_square8 = gen.check_square(board, [6, 7, 8], [3, 4, 5])
+# small_square9 = gen.check_square(board, [6, 6, 8], [6, 7, 8])
+
+# new_board = np.append(small_square1, small_square2, axis=0)
+# print(new_board)
+
+# print(small_square)
