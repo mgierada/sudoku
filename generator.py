@@ -12,10 +12,11 @@ class Generator():
         for row in range(9):
             for column in range(9):
                 b[row, column] = np.random.randint(1, 10)
+        print(b)
         # check, whether numbers in rows and columns are possible.
         # If not, put "0" instead
         Generator.check_board(self, b)
-        print(b)
+        return b
 
     def check_board(self, b):
         ''' Check all rows and column to find repeted numbers that
@@ -90,7 +91,3 @@ class Generator():
         # setting indices equal to 0
         for index in set_indices_to_zero:
             column[index] = 0
-
-
-gen = Generator()
-gen.board()

@@ -1,10 +1,5 @@
 import os
 import numpy as np
-# import random
-# from random import sample
-
-
-# print('')
 
 
 class Solver():
@@ -61,7 +56,7 @@ class Solver():
                     nsoltmp.append(line[:2])
         nsol = len(nsoltmp)
         if nsol == 1:
-            print('There is {} solutions'.format(nsol))
+            print('There is {} solution'.format(nsol))
             return nsol
         else:
             print('There are {} solutions'.format(nsol))
@@ -71,27 +66,20 @@ class Solver():
 if os.path.isfile('res_file.txt'):
     os.remove('res_file.txt')
 
-grid = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
-        [6, 0, 0, 1, 9, 5, 0, 0, 0],
-        [0, 9, 8, 0, 0, 0, 0, 6, 0],
-        [8, 0, 0, 0, 6, 0, 0, 0, 3],
-        [4, 0, 0, 8, 0, 3, 0, 0, 1],
-        [7, 0, 0, 0, 2, 0, 0, 0, 6],
-        [0, 6, 0, 0, 0, 0, 2, 8, 0],
-        [0, 0, 0, 4, 1, 9, 0, 0, 5],
-        [0, 0, 0, 0, 8, 0, 0, 0, 0]]
+###
+# tests
 
-# grid = np.matrix(grid)
-# print(type(grid))
-
-
-print(np.matrix(grid))
-print('-------')
-sol = Solver(grid)
-sol.solve()
-sol.howManySolutions()
+# grid = np.array([[5, 3, 0, 0, 7, 0, 0, 0, 0],
+#                  [6, 0, 0, 1, 9, 5, 0, 0, 0],
+#                  [0, 9, 8, 0, 0, 0, 0, 6, 0],
+#                  [8, 0, 0, 0, 6, 0, 0, 0, 3],
+#                  [4, 0, 0, 8, 0, 3, 0, 0, 1],
+#                  [7, 0, 0, 0, 2, 0, 0, 0, 6],
+#                  [0, 6, 0, 0, 0, 0, 2, 8, 0],
+#                  [0, 0, 0, 4, 1, 9, 0, 0, 5],
+#                  [0, 0, 0, 0, 8, 0, 0, 1, 0]])
+# print(grid)
+# print('-------')
+# sol = Solver(grid)
+# sol.solve()
 # sol.howManySolutions()
-# for x in range(9):
-#     for y in range(9):
-#         if grid[x][y] != 0:
-#             print(grid[x][y])
