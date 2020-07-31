@@ -1,18 +1,36 @@
 import numpy as np
 import random
+from solver import Solver
 
 
 class Generator():
     ''' Sudoku generator class '''
 
-    def board(self):
+    def get_board(self):
         ''' Generate a board '''
         # create an empty 9x9 board, i.e. A board filled with zeros.
-        rows = []
-        for _ in range(9):
-            row = random.sample(range(1, 10), 9)
-            rows.append(row)
-        b = np.array(rows)
+
+        board = np.zeros(81).reshape(9, 9)
+        solver = Solver(board)
+        for x in range(9):
+            for y in range(9):
+                if board[x][y] == 0:
+                    ok_number = False
+                    for n in random.sample(range(1, 10), 9):
+                        if solver.possible(x, y, n):
+                            board[x][y] = n
+        return board
+
+    def check_for_solution(self, board):
+        solver = Solver(board)
+        if not solver.solve():
+            self.get_board()
+
+        # rows = []
+        # for _ in range(9):
+        #     row = random.sample(range(1, 10), 9)
+        #     rows.append(row)
+        # b = np.array(rows)
         # b = np.append(np.array(row), np.array(row), axis=0)
         # print(row)
 
@@ -23,7 +41,7 @@ class Generator():
         # print(b)
         # check, whether numbers in rows and columns are possible.
         # If not, put "0" instead
-        # Generator.check_board(self, b)
+        Generator.check_board(self, b)
         return b
 
     def check_board(self, b):
@@ -41,7 +59,7 @@ class Generator():
             Generator.check_row(self, b, row)
         for column in range(9):
             Generator.check_column(self, b, column)
-        self.check_square(b)
+        # self.check_square(b)
 
     def check_row(self, b, n_row):
         ''' Check row for any impossible combination of numbers.
@@ -52,7 +70,7 @@ class Generator():
         b : ndarray
             an array with numbers to be checked, i.e. a board
         n_row : int
-            a number of the row to be checked        
+            a number of the row to be checked
 
         '''
         row = b[n_row, :]
@@ -81,7 +99,7 @@ class Generator():
         b : ndarray
             an array with numbers to be checked, i.e. a board
         n_column : int
-            a number of the column to be checked        
+            a number of the column to be checked
 
         '''
         column = b[:, n_column]
@@ -123,8 +141,10 @@ class Generator():
 
 
 gen = Generator()
-board = gen.board()
-print(board)
+# board = gen.get_board()
+# print(board)
+checked_boarrd = gen.check_for_solution()
+print(checked_boarrd)
 # TODO I need a way to do it in a more pythonic way
 # small_square1 = gen.check_square(board, [0, 1, 2], [0, 1, 2])
 # small_square2 = gen.check_square(board, [0, 1, 2], [3, 4, 5])
@@ -136,7 +156,33 @@ print(board)
 # small_square8 = gen.check_square(board, [6, 7, 8], [3, 4, 5])
 # small_square9 = gen.check_square(board, [6, 6, 8], [6, 7, 8])
 
-# new_board = np.append(small_square1, small_square2, axis=0)
+# column1 = np.concatenate((small_square1, small_square2, small_square3), axis=0)
+# column2 = np.concatenate((small_square4, small_square5, small_square6), axis=0)
+# column3 = np.concatenate((small_square7, small_square8, small_square9), axis=0)
+# new_board = np.concatenate((column1, column2, column3), axis=1)
 # print(new_board)
 
-# print(small_square)
+# sol = Solver(new_board)
+# print('Solved board:')
+# while sol.solve() is None:
+#     gen = Generator()
+#     board = gen.board()
+#     print(board)
+#     # TODO I need a way to do it in a more pythonic way
+#     small_square1 = gen.check_square(board, [0, 1, 2], [0, 1, 2])
+#     small_square2 = gen.check_square(board, [0, 1, 2], [3, 4, 5])
+#     small_square3 = gen.check_square(board, [0, 1, 2], [6, 7, 8])
+#     small_square4 = gen.check_square(board, [3, 4, 5], [0, 1, 2])
+#     small_square5 = gen.check_square(board, [3, 4, 5], [3, 4, 5])
+#     small_square6 = gen.check_square(board, [3, 4, 5], [6, 7, 8])
+#     small_square7 = gen.check_square(board, [6, 7, 8], [0, 1, 2])
+#     small_square8 = gen.check_square(board, [6, 7, 8], [3, 4, 5])
+#     small_square9 = gen.check_square(board, [6, 6, 8], [6, 7, 8])
+
+#     column1 = np.concatenate((small_square1, small_square2, small_square3), axis=0)
+#     column2 = np.concatenate((small_square4, small_square5, small_square6), axis=0)
+#     column3 = np.concatenate((small_square7, small_square8, small_square9), axis=0)
+#     new_board = np.concatenate((column1, column2, column3), axis=1)
+#     print(new_board)
+
+#     sol = Solver(new_board)

@@ -3,7 +3,7 @@ from solver import Solver
 from generator import Generator
 
 gen = Generator()
-board = gen.board()
+board = gen.get_board()
 print('Generated board:')
 print(board)
 
