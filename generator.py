@@ -16,9 +16,18 @@ class Generator():
             for y in range(9):
                 if board[x][y] == 0:
                     ok_number = False
-                    for n in random.sample(range(1, 10), 9):
+                    # n = random.sample(range(1, 10), 9):§
+                    while ok_number is False:
+                        n = np.random.randint(10)
                         if solver.possible(x, y, n):
                             board[x][y] = n
+                            ok_number = True
+                        else:
+                            board[x][y] = 0
+                            ok_number = False
+                        print(board)
+                # else:
+                #     self.get_board()
         return board
 
     def check_for_solution(self, board):
@@ -141,10 +150,10 @@ class Generator():
 
 
 gen = Generator()
-# board = gen.get_board()
-# print(board)
-checked_boarrd = gen.check_for_solution()
-print(checked_boarrd)
+board = gen.get_board()
+print(board)
+# checked_board = gen.check_for_solution()
+# print(checked_board)
 # TODO I need a way to do it in a more pythonic way
 # small_square1 = gen.check_square(board, [0, 1, 2], [0, 1, 2])
 # small_square2 = gen.check_square(board, [0, 1, 2], [3, 4, 5])
