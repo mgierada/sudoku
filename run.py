@@ -22,5 +22,7 @@ grid = np.array([[5, 3, 0, 0, 7, 0, 0, 0, 0],
                  [0, 0, 0, 0, 8, 0, 0, 1, 0]])
 
 gen = Generator()
-a = gen.find_zeros(grid)
-print(a)
+# a = gen.find_zeros(grid)
+# print(a)
+
+gen.check(grid, 0, 2)

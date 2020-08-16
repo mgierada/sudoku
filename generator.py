@@ -38,13 +38,35 @@ class Generator():
         for row in range(9):
             for column in range(9):
                 n = np.random.randint(10)
-                try:
-                    while solver.possible(row, column, n) is False:
-                        n = np.random.randint(10)
-                    board[row][column] = n
-                    print(board)
-                except solver.possible(x, y, n) is False:
-                    print('False')
+                # try:
+                # possible = solver.possible(row, column, n)
+                while solver.possible(row, column, n) is False:
+                    n = np.random.randint(10)
+                    if self.check(board, row, column):
+                        pass
+                    else:
+                        board[row][column] = 0
+                        break
+                board[row][column] = n
+                print(board)
+                # except solver.possible(x, y, n) is False:
+                #     print('False')
+
+    def check(self, board, row, column):
+        ''' Check if it is possible to put any number in a range 1-9 into the board '''
+        solver = Solver(board)
+        eval = []
+        for n in range(1, 10):
+            # print(n, solver.possible(row, column, n))
+            eval.append(solver.possible(row, column, n))
+        # any returns True if at least one element is True. False if all False or empty.
+        if any(eval) is False:
+            print('all are false')
+            return False
+        else:
+            print('at least one True')
+            return True
+
         # for x in range(9):
         #     for y in range(9):
         #         if board[x][y] == 0:
@@ -94,7 +116,7 @@ class Generator():
         # print(board)
         # return board
 
-    # A function to check if the grid is full
+        # A function to check if the grid is full
 
     def check_grid(self, grid):
         for row in range(0, 9):
