@@ -45,7 +45,8 @@ class Generator():
                     if self.check(board, row, column):
                         pass
                     else:
-                        board[row][column] = 0
+                        print('here')
+                        board[row][column-1] = 0
                         break
                 board[row][column] = n
                 print(board)
@@ -61,10 +62,10 @@ class Generator():
             eval.append(solver.possible(row, column, n))
         # any returns True if at least one element is True. False if all False or empty.
         if any(eval) is False:
-            print('all are false')
+            # print('all are false')
             return False
         else:
-            print('at least one True')
+            # print('at least one True')
             return True
 
         # for x in range(9):
