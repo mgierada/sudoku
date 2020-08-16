@@ -39,7 +39,8 @@ class Generator():
             for column in range(9):
                 n = np.random.randint(10)
                 try:
-                    solver.possible(row, column, n)
+                    while solver.possible(row, column, n) is False:
+                        n = np.random.randint(10)
                     board[row][column] = n
                     print(board)
                 except solver.possible(x, y, n) is False:
