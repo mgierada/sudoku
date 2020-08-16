@@ -1,34 +1,108 @@
 import numpy as np
 import random
 from solver import Solver
+import sys
+
+sys.setrecursionlimit(10**6)
 
 
 class Generator():
     ''' Sudoku generator class '''
 
-    def get_board(self):
-        ''' Generate a board '''
-        # create an empty 9x9 board, i.e. A board filled with zeros.
+    # def __init__(self):
+    #     ''' Generate a board '''
+    # board = np.zeros(81).reshape(9, 9)
 
+    def get_board(self):
+        # create an empty 9x9 board, i.e. A board filled with zeros.
         board = np.zeros(81).reshape(9, 9)
+        self.solve(board)
+        # print(board)
+        # while self.find_zeros(board):
+        #     board = self.solve(board)
+        #     print(board)
+        # else:
+        #     return board
+
+    def find_zeros(self, board):
+        ''' Return False if there are some zeros '''
+        counts = np.unique(board, 0, return_counts=True)[1][0]
+        if counts == 0:
+            return False
+        else:
+            return True
+
+    def solve(self, board):
         solver = Solver(board)
-        for x in range(9):
-            for y in range(9):
-                if board[x][y] == 0:
-                    ok_number = False
-                    # n = random.sample(range(1, 10), 9):§
-                    while ok_number is False:
-                        n = np.random.randint(10)
-                        if solver.possible(x, y, n):
-                            board[x][y] = n
-                            ok_number = True
-                        else:
-                            board[x][y] = 0
-                            ok_number = False
-                        print(board)
-                # else:
-                #     self.get_board()
-        return board
+        print(board)
+        for row in range(9):
+            for column in range(9):
+                n = np.random.randint(10)
+                try:
+                    solver.possible(row, column, n)
+                    board[row][column] = n
+                    print(board)
+                except solver.possible(x, y, n) is False:
+                    print('False')
+        # for x in range(9):
+        #     for y in range(9):
+        #         if board[x][y] == 0:
+        #             ok_number = False
+        #             # n = random.sample(range(1, 10), 9):
+        #             n = np.random.randint(10)
+        #             while ok_number is False:
+        #                 if solver.possible(x, y, n):
+        #                     board[x][y] = n
+        #                     self.solve(board)
+        #                     ok_number = True
+        #             print(board)
+
+        # else:
+        #     board[x][y] = 0
+        # self.solve(board)
+        # else:
+        #     ok_number = False
+        # return board
+        # else:
+        #     pass
+        # print(board)
+        # else:
+        #     board[x][y] = 0
+        #     ok_number = False
+        # print(board)
+        # else:
+        #     #     y = y - 1
+        #     #     # x = x - 1
+        #     board[x][y] = 0
+        #     self.solve(board)
+        #     self.solve(board)
+        #     ok_number = True
+        # self.solve(board)
+        # board[x][y] = n
+        # self.solve(board)
+        # ok_number = True
+        # else:
+        #     board[x][y] = 0
+        # ok_number = True
+        # print(board)
+
+        # print(board)
+        # else:
+        #     self.get_board()
+
+        # print(board)
+        # return board
+
+    # A function to check if the grid is full
+
+    def check_grid(self, grid):
+        for row in range(0, 9):
+            for col in range(0, 9):
+                if grid[row][col] == 0:
+                    return False
+
+        # We have a complete grid!
+        return True
 
     def check_for_solution(self, board):
         solver = Solver(board)
@@ -148,10 +222,6 @@ class Generator():
         square_b = square_b.reshape(3, 3)
         return square_b
 
-
-gen = Generator()
-board = gen.get_board()
-print(board)
 # checked_board = gen.check_for_solution()
 # print(checked_board)
 # TODO I need a way to do it in a more pythonic way
@@ -194,4 +264,9 @@ print(board)
 #     new_board = np.concatenate((column1, column2, column3), axis=1)
 #     print(new_board)
 
-#     sol = Solver(new_board)
+#     sol = Solver(new_board)G
+
+
+gen = Generator()
+board = gen.get_board()
+# print(board)
