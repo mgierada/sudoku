@@ -34,9 +34,11 @@ class Generator():
 
     def solve(self, board):
         solver = Solver(board)
-        print(board)
+        # loop through each row
         for row in range(9):
+            # loop through each column
             for column in range(9):
+                # initialize n as an integer (1-10)
                 n = np.random.randint(10)
                 # try:
                 # possible = solver.possible(row, column, n)
@@ -46,7 +48,7 @@ class Generator():
                     if self.check(board, row, column) is False:
                         print('Cannot place {} in col {} row {}'.format(
                             n, column + 1, row + 1))
-                        board[row][column] = 0
+                        # board[row][column] = 0
                         break
                 board[row][column] = n
                 print()
@@ -60,8 +62,8 @@ class Generator():
         solver = Solver(board)
         eval = []
         for n in range(1, 10):
-            # print(n, solver.possible(row, column, n))
             eval.append(solver.possible(row, column, n))
+        print(eval)
         # any returns True if at least one element is True. False if all False or empty.
         if any(eval) is False:
             # print('all are false')
