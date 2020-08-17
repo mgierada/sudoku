@@ -42,14 +42,16 @@ class Generator():
                 # possible = solver.possible(row, column, n)
                 while solver.possible(row, column, n) is False:
                     n = np.random.randint(10)
-                    if self.check(board, row, column):
-                        pass
-                    else:
-                        print('here')
-                        board[row][column-1] = 0
+                    # board[row][column] = n
+                    if self.check(board, row, column) is False:
+                        print('Cannot place {} in col {} row {}'.format(
+                            n, column + 1, row + 1))
+                        board[row][column] = 0
                         break
                 board[row][column] = n
+                print()
                 print(board)
+                print()
                 # except solver.possible(x, y, n) is False:
                 #     print('False')
 
