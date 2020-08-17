@@ -43,14 +43,18 @@ class Generator():
                 # try:
                 # possible = solver.possible(row, column, n)
                 while solver.possible(row, column, n) is False:
-                    n = np.random.randint(10)
-                    # board[row][column] = n
-                    if self.check(board, row, column) is False:
+                    while self.check(board, row, column) is False:
                         print('Cannot place {} in col {} row {}'.format(
                             n, column + 1, row + 1))
-                        # board[row][column] = 0
-                        break
+                        # board[row][column - 1] = 0
+                        column -= 1
+                        # break
+                    # else:
+                    #     board[row][column] = n
+                    n = np.random.randint(10)
+
                 board[row][column] = n
+
                 print()
                 print(board)
                 print()
@@ -63,63 +67,15 @@ class Generator():
         eval = []
         for n in range(1, 10):
             eval.append(solver.possible(row, column, n))
-        print(eval)
+        # print(eval)
         # any returns True if at least one element is True. False if all False or empty.
         if any(eval) is False:
-            # print('all are false')
+            # No possible number to be placed
             return False
         else:
-            # print('at least one True')
+            # return True if at least one element in the eval is True
+            # There is a possible number to be place here
             return True
-
-        # for x in range(9):
-        #     for y in range(9):
-        #         if board[x][y] == 0:
-        #             ok_number = False
-        #             # n = random.sample(range(1, 10), 9):
-        #             n = np.random.randint(10)
-        #             while ok_number is False:
-        #                 if solver.possible(x, y, n):
-        #                     board[x][y] = n
-        #                     self.solve(board)
-        #                     ok_number = True
-        #             print(board)
-
-        # else:
-        #     board[x][y] = 0
-        # self.solve(board)
-        # else:
-        #     ok_number = False
-        # return board
-        # else:
-        #     pass
-        # print(board)
-        # else:
-        #     board[x][y] = 0
-        #     ok_number = False
-        # print(board)
-        # else:
-        #     #     y = y - 1
-        #     #     # x = x - 1
-        #     board[x][y] = 0
-        #     self.solve(board)
-        #     self.solve(board)
-        #     ok_number = True
-        # self.solve(board)
-        # board[x][y] = n
-        # self.solve(board)
-        # ok_number = True
-        # else:
-        #     board[x][y] = 0
-        # ok_number = True
-        # print(board)
-
-        # print(board)
-        # else:
-        #     self.get_board()
-
-        # print(board)
-        # return board
 
         # A function to check if the grid is full
 

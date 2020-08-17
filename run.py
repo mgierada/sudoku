@@ -25,4 +25,5 @@ gen = Generator()
 # a = gen.find_zeros(grid)
 # print(a)
 
-gen.check(grid, 0, 2)
+eval = gen.check(grid, 0, 2)
+print(eval)
