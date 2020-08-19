@@ -2,3 +2,4 @@
 .vscode
 *workspace
 old/
+__pycache__
