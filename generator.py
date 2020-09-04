@@ -40,8 +40,11 @@ class Generator():
         for x in range(9):
             for y in range(9):
                 if self.board[x][y] == 0:
-                    for n in range(1, 10):
+                    numbers = list(range(1, 10))
+                    random.shuffle(numbers)
+                    for n in numbers:
                         if self.possible(x, y, n):
+                            # if self.possible(x, y, n):
                             self.board[x][y] = n
                             yield from self.solve()
                             # if failed, reset to 0
