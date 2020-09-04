@@ -44,9 +44,9 @@ class Solver():
         with open('res_file.txt', 'a+') as f:
             f.write(str(np.matrix(self.grid)))
             f.write('\n')
-        f.close()
         print(np.matrix(self.grid))
         print('')
+        np.matrix(self.grid)
 
     def howManySolutions(self):
         nsoltmp = []

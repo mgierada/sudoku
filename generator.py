@@ -1,256 +1,55 @@
 import numpy as np
 import random
-from solver import Solver
 import sys
-
-sys.setrecursionlimit(10**6)
 
 
 class Generator():
     ''' Sudoku generator class '''
 
-    # def __init__(self):
-    #     ''' Generate a board '''
-    # board = np.zeros(81).reshape(9, 9)
+    def __init__(self):
+        ''' Generate a board '''
+        self.board = np.zeros(81).reshape(9, 9)
 
     def get_board(self):
-        # create an empty 9x9 board, i.e. A board filled with zeros.
-        board = np.zeros(81).reshape(9, 9)
-        self.solve(board)
-        # print(board)
-        # while self.find_zeros(board):
-        #     board = self.solve(board)
-        #     print(board)
-        # else:
-        #     return board
+        filled_board = self.solve()
+        return next(filled_board)
 
-    def find_zeros(self, board):
-        ''' Return False if there are some zeros '''
-        counts = np.unique(board, 0, return_counts=True)[1][0]
-        if counts == 0:
+    def possible(self, x, y, n):
+        ''' Check whether it is possible to put number n in board[x][y] == 0 '''
+        if self.board[x][y] != 0:
             return False
-        else:
-            return True
-
-    def solve(self, board):
-        solver = Solver(board)
-        # loop through each row
-        for row in range(9):
-            # loop through each column
-            for column in range(9):
-                # initialize n as an integer (1-10)
-                n = np.random.randint(10)
-                # try:
-                # possible = solver.possible(row, column, n)
-                while solver.possible(row, column, n) is False:
-                    while self.check(board, row, column) is False:
-                        print('Cannot place {} in col {} row {}'.format(
-                            n, column + 1, row + 1))
-                        # board[row][column - 1] = 0
-                        column -= 1
-                        # break
-                    # else:
-                    #     board[row][column] = n
-                    n = np.random.randint(10)
-
-                board[row][column] = n
-
-                print()
-                print(board)
-                print()
-                # except solver.possible(x, y, n) is False:
-                #     print('False')
-
-    def check(self, board, row, column):
-        ''' Check if it is possible to put any number in a range 1-9 into the board '''
-        solver = Solver(board)
-        eval = []
-        for n in range(1, 10):
-            eval.append(solver.possible(row, column, n))
-        # print(eval)
-        # any returns True if at least one element is True. False if all False or empty.
-        if any(eval) is False:
-            # No possible number to be placed
-            return False
-        else:
-            # return True if at least one element in the eval is True
-            # There is a possible number to be place here
-            return True
-
-        # A function to check if the grid is full
-
-    def check_grid(self, grid):
-        for row in range(0, 9):
-            for col in range(0, 9):
-                if grid[row][col] == 0:
+        # cannot have the same number in each row
+        for i in range(9):
+            if self.board[x][i] == n:
+                return False
+        # cannot have the same number in each column
+        for i in range(9):
+            if self.board[i][y] == n:
+                return False
+        # cannot have the same number in each 3x3 square
+        x0 = (x // 3) * 3
+        y0 = (y // 3) * 3
+        for i in range(3):
+            for j in range(3):
+                if self.board[x0 + i][y0 + j] == n:
                     return False
-
-        # We have a complete grid!
         return True
 
-    def check_for_solution(self, board):
-        solver = Solver(board)
-        if not solver.solve():
-            self.get_board()
-
-        # rows = []
-        # for _ in range(9):
-        #     row = random.sample(range(1, 10), 9)
-        #     rows.append(row)
-        # b = np.array(rows)
-        # b = np.append(np.array(row), np.array(row), axis=0)
-        # print(row)
-
-        # fill the empty board with random integers in a range 1-9
-        # for row in range(9):
-        #     for column in range(9):
-        #         b[row, column] = np.random.randint(1, 10)
-        # print(b)
-        # check, whether numbers in rows and columns are possible.
-        # If not, put "0" instead
-        Generator.check_board(self, b)
-        return b
-
-    def check_board(self, b):
-        ''' Check all rows and column to find repeted numbers that
-        are not allowed in the puzzle.
-
-        Parameters:
-        ___________
-
-        b : ndarray
-            an array with numbers to be checked, i.e. a board
-
-        '''
-        for row in range(9):
-            Generator.check_row(self, b, row)
-        for column in range(9):
-            Generator.check_column(self, b, column)
-        # self.check_square(b)
-
-    def check_row(self, b, n_row):
-        ''' Check row for any impossible combination of numbers.
-
-        Parameters:
-        ___________
-
-        b : ndarray
-            an array with numbers to be checked, i.e. a board
-        n_row : int
-            a number of the row to be checked
-
-        '''
-        row = b[n_row, :]
-        set_indices_to_zero = []
-        for unique_number in np.unique(row):
-            # if there are more than one occurence of the number in the array,
-            # get indices of them
-            how_many_occurences = np.where(row == unique_number)[0]
-            # It's a 1D array, so .shape[0] acts similar like len() on lists
-            if how_many_occurences.shape[0] > 1:
-                # loop through all
-                for idx, occurence in enumerate(how_many_occurences):
-                    # skip the first value, beacouse it is a valid number
-                    if idx != 0:
-                        set_indices_to_zero.append(occurence)
-        # setting indices equal to 0
-        for index in set_indices_to_zero:
-            row[index] = 0
-
-    def check_column(self, b, n_column):
-        ''' Check column for any impossible combination of numbers.
-
-        Parameters:
-        ___________
-
-        b : ndarray
-            an array with numbers to be checked, i.e. a board
-        n_column : int
-            a number of the column to be checked
-
-        '''
-        column = b[:, n_column]
-        set_indices_to_zero = []
-        for unique_number in np.unique(column):
-            # if there are more than one occurence of the number in the array,
-            # get indices of them
-            how_many_occurences = np.where(column == unique_number)[0]
-            # It's a 1D array, so .shape[0] acts similar like len() on lists
-            if how_many_occurences.shape[0] > 1:
-                # loop through all
-                for idx, occurence in enumerate(how_many_occurences):
-                    # skip the first value, beacouse it is a valid number
-                    if idx != 0:
-                        set_indices_to_zero.append(occurence)
-        # setting indices equal to 0
-        for index in set_indices_to_zero:
-            column[index] = 0
-
-    def check_square(self, b, ind_row, ind_column):
-        # cannot have the same number in each 3x3 square
-        #
-        # ind = [0, 1, 2]
-        # get the first 3x3 square by using fancy indexing
-        square_b = b[:, ind_row][ind_column, :]
-        square_b = square_b.reshape(9)
-        set_indices_to_zero = []
-        for unique_number in np.unique(square_b):
-            how_many_occurences = np.where(square_b == unique_number)[0]
-            if how_many_occurences.shape[0] > 1:
-                for idx, occurence in enumerate(how_many_occurences):
-                    # skip the first value, beacouse it is a valid number
-                    if idx != 0:
-                        set_indices_to_zero.append(occurence)
-        for index in set_indices_to_zero:
-            square_b[index] = 0
-        square_b = square_b.reshape(3, 3)
-        return square_b
-
-# checked_board = gen.check_for_solution()
-# print(checked_board)
-# TODO I need a way to do it in a more pythonic way
-# small_square1 = gen.check_square(board, [0, 1, 2], [0, 1, 2])
-# small_square2 = gen.check_square(board, [0, 1, 2], [3, 4, 5])
-# small_square3 = gen.check_square(board, [0, 1, 2], [6, 7, 8])
-# small_square4 = gen.check_square(board, [3, 4, 5], [0, 1, 2])
-# small_square5 = gen.check_square(board, [3, 4, 5], [3, 4, 5])
-# small_square6 = gen.check_square(board, [3, 4, 5], [6, 7, 8])
-# small_square7 = gen.check_square(board, [6, 7, 8], [0, 1, 2])
-# small_square8 = gen.check_square(board, [6, 7, 8], [3, 4, 5])
-# small_square9 = gen.check_square(board, [6, 6, 8], [6, 7, 8])
-
-# column1 = np.concatenate((small_square1, small_square2, small_square3), axis=0)
-# column2 = np.concatenate((small_square4, small_square5, small_square6), axis=0)
-# column3 = np.concatenate((small_square7, small_square8, small_square9), axis=0)
-# new_board = np.concatenate((column1, column2, column3), axis=1)
-# print(new_board)
-
-# sol = Solver(new_board)
-# print('Solved board:')
-# while sol.solve() is None:
-#     gen = Generator()
-#     board = gen.board()
-#     print(board)
-#     # TODO I need a way to do it in a more pythonic way
-#     small_square1 = gen.check_square(board, [0, 1, 2], [0, 1, 2])
-#     small_square2 = gen.check_square(board, [0, 1, 2], [3, 4, 5])
-#     small_square3 = gen.check_square(board, [0, 1, 2], [6, 7, 8])
-#     small_square4 = gen.check_square(board, [3, 4, 5], [0, 1, 2])
-#     small_square5 = gen.check_square(board, [3, 4, 5], [3, 4, 5])
-#     small_square6 = gen.check_square(board, [3, 4, 5], [6, 7, 8])
-#     small_square7 = gen.check_square(board, [6, 7, 8], [0, 1, 2])
-#     small_square8 = gen.check_square(board, [6, 7, 8], [3, 4, 5])
-#     small_square9 = gen.check_square(board, [6, 6, 8], [6, 7, 8])
-
-#     column1 = np.concatenate((small_square1, small_square2, small_square3), axis=0)
-#     column2 = np.concatenate((small_square4, small_square5, small_square6), axis=0)
-#     column3 = np.concatenate((small_square7, small_square8, small_square9), axis=0)
-#     new_board = np.concatenate((column1, column2, column3), axis=1)
-#     print(new_board)
-
-#     sol = Solver(new_board)G
+    def solve(self):
+        ''' Try to solve Sudoku puzzle recursively '''
+        for x in range(9):
+            for y in range(9):
+                if self.board[x][y] == 0:
+                    for n in range(1, 10):
+                        if self.possible(x, y, n):
+                            self.board[x][y] = n
+                            yield from self.solve()
+                            # if failed, reset to 0
+                            self.board[x][y] = 0
+                    return
+        yield np.matrix(self.board)
 
 
 gen = Generator()
 board = gen.get_board()
-# print(board)
+print(board)
