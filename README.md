@@ -11,6 +11,11 @@ Solver works nicely. Generator still requires some work. Be aware, the code coul
 ## How to instal
 
 Download the code:
-`git clone https://github.com/mgierada/sudoku.git`
+
+```
+git clone https://github.com/mgierada/sudoku.git
+```
 Run it:
-`python3 run.py`
+```
+python3 run.py
+```
