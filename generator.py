@@ -1,6 +1,5 @@
 import numpy as np
 import random
-import sys
 
 
 class Generator():
@@ -51,8 +50,3 @@ class Generator():
                             self.board[x][y] = 0
                     return
         yield np.matrix(self.board)
-
-
-gen = Generator()
-board = gen.get_board()
-print(board)
