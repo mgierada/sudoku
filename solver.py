@@ -41,16 +41,16 @@ class Solver():
                             # if failed, reset to 0
                             self.grid[x][y] = 0
                     return
-        with open('res_file.txt', 'a+') as f:
+        with open('results.txt', 'a+') as f:
             f.write(str(np.matrix(self.grid)))
             f.write('\n')
-        print(np.matrix(self.grid))
-        print('')
+        # print(np.matrix(self.grid))
+        # print('')
         np.matrix(self.grid)
 
     def howManySolutions(self):
         nsoltmp = []
-        with open('res_file.txt', 'r') as f:
+        with open('results.txt', 'r') as f:
             for line in f.readlines():
                 if '[[' in line:
                     nsoltmp.append(line[:2])

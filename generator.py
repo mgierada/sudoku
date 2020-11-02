@@ -1,4 +1,6 @@
+import os
 import numpy as np
+from solver import Solver
 import random
 
 
@@ -11,9 +13,23 @@ class Generator():
 
     def get_board(self):
         self.board = np.zeros(81).reshape(9, 9)
-        full = self.solve()
-        print(next(full))
-        self.remove()
+        full = next(self.solve())
+        many_removed = self.remove()
+        # print(many_removed)
+        # print(one_removed)
+        # solving = Solver(many_removed)
+        # solving.solve()
+        # solving.howManySolutions()
+        self.check_solution()
+        self.howManySolutions()
+        return self.board
+        # while solving.howManySolutions() is True:
+        #     one_removed = self.remove()
+        #     print(one_removed)
+        #     solving = Solver(one_removed)
+        #     solving.solve()
+        #     print(solving.howManySolutions())
+
         # return next(full)
 
     def possible(self, x, y, n):
@@ -55,6 +71,48 @@ class Generator():
         yield np.matrix(self.board)
 
     def remove(self):
-        row, col = random.randint(0, 9), random.randint(0, 9)
-        self.board[row][col] = 0
+        zeros = 0
+        while zeros <= 40:
+            row, col = random.randint(0, 8), random.randint(0, 8)
+            self.board[row][col] = 0
+            # unique, counts = np.unique(self.board.count(0), )
+            zeros = len(np.where(self.board == 0.)[0])
+            # print(zeros)
         return self.board
+
+    def check_solution(self):
+        ''' Try to solve Sudoku puzzle recursively '''
+        for x in range(9):
+            for y in range(9):
+                if self.board[x][y] == 0:
+                    for n in range(1, 10):
+                        if self.possible(x, y, n):
+                            self.board[x][y] = n
+                            self.solve()
+                            # if failed, reset to 0
+                            self.board[x][y] = 0
+                    # return
+        with open('results.txt', 'a+') as f:
+            f.write(str(np.matrix(self.board)))
+            f.write('\n')
+        # print(np.matrix(self.board))
+        # print('')
+        # np.matrix(self.board)
+
+    def howManySolutions(self):
+        nsoltmp = []
+        with open('results.txt', 'r') as f:
+            for line in f.readlines():
+                if '[[' in line:
+                    nsoltmp.append(line[:2])
+        nsol = len(nsoltmp)
+        if nsol == 1:
+            print('There is {} solution'.format(nsol))
+            return nsol
+        else:
+            print('There are {} solutions'.format(nsol))
+            return nsol
+
+
+if os.path.isfile('res_file.txt'):
+    os.remove('res_file.txt')
