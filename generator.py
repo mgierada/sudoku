@@ -1,4 +1,3 @@
-import os
 import numpy as np
 from solver import Solver
 import random
@@ -13,24 +12,14 @@ class Generator():
 
     def get_board(self):
         self.board = np.zeros(81).reshape(9, 9)
-        full = next(self.solve())
-        many_removed = self.remove()
-        # print(many_removed)
-        # print(one_removed)
-        # solving = Solver(many_removed)
-        # solving.solve()
-        # solving.howManySolutions()
-        self.check_solution()
-        self.howManySolutions()
+        next(self.solve())
+        self.remove()
+        # self.check_solution()
+        # self.howManySolutions()
+        checking = Solver(self.board)
+        checking.solve()
+        checking.howManySolutions()
         return self.board
-        # while solving.howManySolutions() is True:
-        #     one_removed = self.remove()
-        #     print(one_removed)
-        #     solving = Solver(one_removed)
-        #     solving.solve()
-        #     print(solving.howManySolutions())
-
-        # return next(full)
 
     def possible(self, x, y, n):
         ''' Check whether it is possible to put number n in board[x][y] == 0 '''
@@ -75,9 +64,7 @@ class Generator():
         while zeros <= 40:
             row, col = random.randint(0, 8), random.randint(0, 8)
             self.board[row][col] = 0
-            # unique, counts = np.unique(self.board.count(0), )
             zeros = len(np.where(self.board == 0.)[0])
-            # print(zeros)
         return self.board
 
     def check_solution(self):
@@ -91,13 +78,10 @@ class Generator():
                             self.solve()
                             # if failed, reset to 0
                             self.board[x][y] = 0
-                    # return
+                    return
         with open('results.txt', 'a+') as f:
             f.write(str(np.matrix(self.board)))
             f.write('\n')
-        # print(np.matrix(self.board))
-        # print('')
-        # np.matrix(self.board)
 
     def howManySolutions(self):
         nsoltmp = []
@@ -112,7 +96,3 @@ class Generator():
         else:
             print('There are {} solutions'.format(nsol))
             return nsol
-
-
-if os.path.isfile('res_file.txt'):
-    os.remove('res_file.txt')
