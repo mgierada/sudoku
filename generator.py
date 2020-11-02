@@ -5,13 +5,16 @@ import random
 class Generator():
     ''' Sudoku generator class '''
 
-    def __init__(self):
-        ''' Generate a board '''
-        self.board = np.zeros(81).reshape(9, 9)
+    # def __init__(self):
+    #     ''' Generate a board '''
+    #     self.board = np.zeros(81).reshape(9, 9)
 
     def get_board(self):
-        filled_board = self.solve()
-        return next(filled_board)
+        self.board = np.zeros(81).reshape(9, 9)
+        full = self.solve()
+        print(next(full))
+        self.remove()
+        # return next(full)
 
     def possible(self, x, y, n):
         ''' Check whether it is possible to put number n in board[x][y] == 0 '''
@@ -50,3 +53,8 @@ class Generator():
                             self.board[x][y] = 0
                     return
         yield np.matrix(self.board)
+
+    def remove(self):
+        row, col = random.randint(0, 9), random.randint(0, 9)
+        self.board[row][col] = 0
+        return self.board
