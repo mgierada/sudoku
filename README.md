@@ -1,6 +1,6 @@
 # Sudoku solver and generator
 
-A Python package to create and solve sudoku puzzle. Both slover and generator utilize the backtracking and recursive algorithms.
+A Python package to create and solve sudoku puzzle. Both slover and generator utilize the backtracking and recursive algorithms. JavaScript is used to visualize generated board and solving procedure.
 
 <p align='center'>
 <img src=./example_sudoku.png>
@@ -8,7 +8,7 @@ A Python package to create and solve sudoku puzzle. Both slover and generator ut
 
 # WIP (work in progress)
 
-Solver works nicely. Generator still requires some work. Be aware, the code could be a quite buggy buggy 🐛
+Backend works well (both generator and solver algorithms). Frontend supports static board visualization only (generated board). Soon, I will add a few features allowing user to see how the solving algorithms works.
 
 ## Prerequisites
 
