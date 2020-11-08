@@ -2,7 +2,9 @@
 
 A Python package to create and solve sudoku puzzle. Both slover and generator utilize the backtracking and recursive algorithms.
 
+<p align='center'>
 <img src=./example_sudoku.png>
+</p>
 
 # WIP (work in progress)
 
