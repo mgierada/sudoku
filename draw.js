@@ -15,11 +15,6 @@ function draw() {
         const ctx = canvas.getContext('2d');
         drawBoard(ctx) 
         printNumbers(ctx, array)
-    //    ctx.moveTo(0, 0);
-    //    ctx.lineTo(0, 400);
-    //    ctx.stroke();
-    //    ctx.fillStyle = "#FF0000";
-    //    ctx.fillRect(0, 0, 150, 75);
     }
 }
 function drawBoard(ctx) {
@@ -67,8 +62,6 @@ function printNumbers(ctx, array) {
             } else {
                 ctx.fillText(element, 12 + index2 * 40, 32 + index1 * 40);
             }
-            
-            // console.log(array[0].length)
         }
     }
 }
